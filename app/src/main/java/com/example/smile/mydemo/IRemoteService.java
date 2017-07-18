@@ -6,6 +6,9 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Description:
  * Created by LiBing
@@ -13,6 +16,9 @@ import android.support.annotation.Nullable;
  */
 
 public class IRemoteService extends Service {
+
+    private ArrayList<Person> persons;
+
     /**
      * 当客户端绑定到该服务的时候调用
      * @param intent
@@ -21,14 +27,16 @@ public class IRemoteService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        persons = new ArrayList<>();
         return mIBinder;
     }
 
     private IBinder mIBinder = new IMyAidlInterface.Stub() {
 
         @Override
-        public int add(int num1, int num2) throws RemoteException {
-            return num1 + num2;
+        public List<Person> add(Person person) throws RemoteException {
+            persons.add(person);
+            return persons;
         }
     };
 }

@@ -1,8 +1,9 @@
-// IMyAidlInterface.aidl
 package com.example.smile.mydemo;
 
-// Declare any non-default types here with import statements
+import com.example.smile.mydemo.Person;
 
 interface IMyAidlInterface {
-    int add(int num1,int num2);
+
+    List<Person> add(in Person person);
+
 }

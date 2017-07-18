@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.smile.mydemo.IMyAidlInterface;
+import com.example.smile.mydemo.Person;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mNum2;
     private EditText mNum3;
     private Button btn;
+    private IMyAidlInterface mIMyAidlInterface;
 
     private ServiceConnection conn = new ServiceConnection() {
         @Override
@@ -35,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mIMyAidlInterface = null;
         }
     };
-    private IMyAidlInterface mIMyAidlInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        int num1 = Integer.parseInt(mNum1.getText().toString());
+        try {
+            ArrayList<Person> list = (ArrayList<Person>) mIMyAidlInterface.add(new Person("李灵1",25));
+            Log.i("==========",list.toString());
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        /*int num1 = Integer.parseInt(mNum1.getText().toString());
         int num2 = Integer.parseInt(mNum2.getText().toString());
 
         try {
@@ -68,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (RemoteException e) {
             e.printStackTrace();
             mNum3.setText("错误");
-        }
+        }*/
     }
 
     private void bindService() {
